@@ -1,0 +1,19 @@
+{
+    "isNeedPxToRem": true,
+    "browserDefaultFontSize": "75px",
+    "ignore": [
+        "1px",
+        "[data-dpr=",
+        "font-size",
+        ".test",
+        "height"
+    ],
+    "outputExtra": [
+        "1x",
+        "2x"
+    ],
+    "imageMaxSize": "5120",
+    "imageLoader": "imageuploader.js",
+    "imagesPath": {
+    }
+}

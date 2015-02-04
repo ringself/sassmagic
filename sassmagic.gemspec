@@ -1,0 +1,26 @@
+# coding: utf-8
+lib = File.expand_path('lib', File.dirname(__FILE__))
+$LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
+# require 'compass/core/version'
+
+Gem::Specification.new do |spec|
+  spec.name = 'sassmagic'
+  spec.version = '0.1.0'
+  spec.summary = 'Awesome Extensions For Sass'
+  spec.description = 'Awesome features that you wanted'
+  spec.homepage = 'https://github.com/ringself/sassmagic'
+  spec.author = 'ringself'
+  spec.email = 'ringself@163.com'
+  spec.license = 'MIT'
+  spec.files = Dir[
+      'bin/*',
+    'lib/**/*.rb',
+    'stylesheets/**/*.scss',
+    '*.md'
+  ]
+  spec.bindir = 'bin'
+  spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
+  spec.platform = Gem::Platform::RUBY
+  spec.required_ruby_version = '>= 1.9'
+  spec.add_dependency "sass", ">= 3.3.0", "< 3.5"
+end

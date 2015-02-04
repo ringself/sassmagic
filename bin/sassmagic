@@ -1,0 +1,53 @@
+# !/usr/bin/env ruby
+# The command line Sass parser.
+THIS_FILE = File.symlink?(__FILE__) ? File.readlink(__FILE__) : __FILE__
+begin
+  require File.dirname(THIS_FILE) + '/../lib/sass'
+rescue LoadError
+end
+
+require 'sass'
+require 'sass/exec'
+require 'sassmagic/utils'
+require 'sassmagic/reset'
+# require 'debugger'
+
+
+class Engine
+  # include Sass::Tree
+  def absolutize(file)
+    File.expand_path("#{File.dirname(__FILE__)}/#{file}")
+  end
+  def go
+    args = ARGV
+    input = args[-2]
+    output = args[-1]
+    if input && output
+      Sass.compile_file(input,output, ARGV)
+    end
+  end
+end
+
+multiple = false
+# debugger
+# ARGV.each{|v|
+#   if v == '-x'
+#     multiple = true
+#   end
+# }
+
+if ARGV.include?'--x'
+  multiple = true
+end
+
+
+# Engine.new.go
+if multiple
+  Engine.new.go
+else
+  opts = Sass::Exec::SassScss.new(ARGV, :sass)
+  opts.parse!
+end
+
+
+
