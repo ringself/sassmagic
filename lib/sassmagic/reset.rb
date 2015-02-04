@@ -551,6 +551,7 @@ class Sass::Tree::Visitors::ToCss < Sass::Tree::Visitors::Base
     end
     # 判断是否不需要rem进行自动处理，通过class
     $classignore = false
+    opt["ignore"] ||= []
     opt["ignore"].each{|v|
       # debugger
       if (node.resolved_rules.to_s).include? v
