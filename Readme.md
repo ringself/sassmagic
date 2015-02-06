@@ -1,22 +1,22 @@
-###sassmagic
+### sassmagic
 
 
 description:Sass extention tool
 
 
-###install
+### install
 
 
 sudo gem install sassmagic
 
 
-###use
+### use
 
 
 same to sass
 
 
-###configuration
+### configuration
 
 
 sassmagic.json 配置文件:
