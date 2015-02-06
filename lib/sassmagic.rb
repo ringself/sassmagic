@@ -17,4 +17,5 @@ $:.unshift"#{File.dirname(__FILE__)}"
 # require 'sass'
 require 'sassmagic/utils'
 require 'sassmagic/reset'
+require 'sassmagic/remote'
 

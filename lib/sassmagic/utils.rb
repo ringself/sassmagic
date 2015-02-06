@@ -136,64 +136,70 @@ end
 
 
 #inline_image 取图片base64编码
-# module Sass::Script::Functions::InlineImage
-#
-#   def inline_image(path, mime_type = nil)
-#     # path = path.value
-#     # real_path = File.join(Compass.configuration.images_path, path)
-#     inline_image_string(data(path), compute_mime_type(path, mime_type))
-#   end
-#
-#   protected
-#   def inline_image_string(data, mime_type)
-#     data = [data].flatten.pack('m').gsub("\n","")
-#     url = "url('data:#{mime_type};base64,#{data}')"
-#     unquoted_string(url)
-#   end
-#
-#   private
-#   def compute_mime_type(path, mime_type = nil)
-#     return mime_type.value if mime_type
-#     case path
-#       when /\.png$/i
-#         'image/png'
-#       when /\.jpe?g$/i
-#         'image/jpeg'
-#       when /\.gif$/i
-#         'image/gif'
-#       when /\.svg$/i
-#         'image/svg+xml'
-#       when /\.otf$/i
-#         'font/opentype'
-#       when /\.eot$/i
-#         'application/vnd.ms-fontobject'
-#       when /\.ttf$/i
-#         'font/truetype'
-#       when /\.woff$/i
-#         'application/font-woff'
-#       when /\.off$/i
-#         'font/openfont'
-#       when /\.([a-zA-Z]+)$/
-#         "image/#{Regexp.last_match(1).downcase}"
-#       else
-#         raise Sass.logger.debug("A mime type could not be determined for #{path}, please specify one explicitly.")
-#     end
-#   end
-#
-#   def data(real_path)
-#     debugger
-#     if File.readable?(real_path)
-#       File.open(real_path, "rb") {|io| io.read}
-#     else
-#       raise Sass.logger.debug("File not found or cannot be read: #{real_path}")
-#     end
-#   end
-#
-# end
+module Sass::Script::Functions
+
+  def inline_image(path, mime_type = nil)
+    # debugger
+    path = path.value
+    real_path = File.expand_path("#{File.dirname(options[:filename])}/#{path}")
+    inline_image_string(data(real_path), compute_mime_type(path, mime_type))
+  end
+
+  declare :inline_image, [], var_args: true, var_kwargs: true
+
+  protected
+  def inline_image_string(data, mime_type)
+    data = [data].flatten.pack('m').gsub("\n","")
+    url = "url(data:#{mime_type};base64,#{data})"
+    unquoted_string(url)
+  end
+
+  private
+  def compute_mime_type(path, mime_type = nil)
+    return mime_type.value if mime_type
+    case path
+      when /\.png$/i
+        'image/png'
+      when /\.jpe?g$/i
+        'image/jpeg'
+      when /\.gif$/i
+        'image/gif'
+      when /\.svg$/i
+        'image/svg+xml'
+      when /\.otf$/i
+        'font/opentype'
+      when /\.eot$/i
+        'application/vnd.ms-fontobject'
+      when /\.ttf$/i
+        'font/truetype'
+      when /\.woff$/i
+        'application/font-woff'
+      when /\.off$/i
+        'font/openfont'
+      when /\.([a-zA-Z]+)$/
+        "image/#{Regexp.last_match(1).downcase}"
+      else
+        raise Sass.logger.debug("A mime type could not be determined for #{path}, please specify one explicitly.")
+    end
+  end
+
+  def data(real_path)
+    # debugger
+    if File.readable?(real_path)
+      File.open(real_path, "rb") {|io| io.read}
+    else
+      raise Sass.logger.debug("File not found or cannot be read: #{real_path}")
+    end
+  end
+
+end
+
+
+
+
 #url重写
 module Sass::Script::Functions
-  # include Sass::Script::Functions::InlineImage
-  # declare :inline_image, [], var_args: true, var_kwargs: true
+
   FONT_TYPES = {
       eot: 'embedded-opentype',
       woff: 'woff',

@@ -4,16 +4,17 @@
     "ignore": [
         "1px",
         "[data-dpr=",
-        "font-size",
-        ".test",
-        "height"
+        "font-size"
     ],
     "outputExtra": [
         "1x",
-        "2x"
+        "2x",
+        "3x"
     ],
-    "imageMaxSize": "5120",
+    "imageMaxSize": "5.120",
     "imageLoader": "imageuploader.js",
     "imagesPath": {
-    }
+        "/Users/fengnu/RubymineProjects/sassmagic/test/tmp/1px.png": "http://gw.alicdn.com/tfscom/TB1BDf5HXXXXXbMXpXXaCx9JFXX-1-1.png"
+    },
+    "remote":[]
 }

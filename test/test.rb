@@ -5,6 +5,7 @@ require 'sass'
 require 'sass/exec'
 require 'sassmagic'
 require 'debugger'
+
 debugger
 class Test
   include Sass::Tree
@@ -19,5 +20,8 @@ class Test
     # section{background:url('http://tmp/1px.png')}")
   end
 end
+# debugger
+RemoteSass.location = "https://raw.githubusercontent.com/jsw0528/base.sass/master/stylesheets/base.sass/"
+# RemoteSass.location = "http://gitlab.alibaba-inc.com/mtb/app-xinrenquanyi/raw/master/src/css/sass/"
 
 Test.new.go
