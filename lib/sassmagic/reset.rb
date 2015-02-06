@@ -146,6 +146,11 @@ module Sass
     options = args.last.is_a?(Hash) ? args.pop : {}
     options = options.merge $configHash
     css_filename = args.shift
+    #是否写入loadpath
+    if options.has_key?"remoteStylesheet"
+      RemoteSass.location = options["remoteStylesheet"]
+    end
+    #
     # debugger
     #是否需要额外输出样式表
     if options.has_key?"outputExtra"

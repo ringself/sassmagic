@@ -41,15 +41,15 @@
   }
 }
 
-@mixin clearfix() {
-  &:before, &:after {
-    content: "";
-    display: table;
-  }
-  &:after {
-    clear: both;
-  }
-}
+//@mixin clearfix() {
+//  &:before, &:after {
+//    content: "";
+//    display: table;
+//  }
+//  &:after {
+//    clear: both;
+//  }
+//}
 
 @mixin box-sizing($value: border-box) {
   -webkit-box-sizing: $value;

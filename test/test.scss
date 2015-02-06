@@ -1,7 +1,10 @@
+//remote
+//https://raw.githubusercontent.com/jsw0528/base.sass/master/stylesheets/base.sass/mixins/_clearfix.scss
 @import "mixins/_clearfix.scss";
 @import "mixins/_placeholder-wrapper.scss";
-//@import "main.scss";
 
+//local
+@import "mixin";
 
 
 body[data-dpr="1"] {
@@ -24,4 +27,7 @@ font-size:20px;
   height:200px;
   padding: 100px;
   @include clearfix;
+}
+.test-c{
+  @include box-sizing;
 }

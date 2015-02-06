@@ -8,6 +8,7 @@ end
 
 require 'sass'
 require 'sass/exec'
+require 'sassmagic/remote'
 require 'sassmagic/utils'
 require 'sassmagic/reset'
 # require 'debugger'
