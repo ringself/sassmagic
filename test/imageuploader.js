@@ -13,7 +13,7 @@ fs.readFile(file, 'utf8', function(err, data) {
     uploader(imgList, function (list) {
         list.forEach(function(v,i){
             for(var i in v){
-                config.imagesPath[i] = v[i]
+                config.imagesPath[i] = v[i].replace(/^https?:\/\//,'//')
             }
         })
         //写文件

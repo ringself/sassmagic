@@ -4,6 +4,7 @@
 ## Licensed under the [MIT License](http://www.opensource.org/licenses/mit-license.php).
 
 #env
+# require 'tinypng'
 module Sass::Script::Functions
 
   # Returns the value of environment variable associated with the given name.
@@ -241,6 +242,7 @@ module Sass::Script::Functions
   # url('a.png', $base64: true) => url(data:image/png;base64,iVBORw...)
   def url(*paths)
     # debugger
+    $configHash ||= load_json(File.expand_path("#{File.dirname(options[:filename])}/sassmagic.json")) || Hash.new
     kwargs = paths.last.is_a?(Hash) ? paths.pop : {}
     raise Sass::SyntaxError, 'url() needs one path at least' if paths.empty?
 
@@ -248,7 +250,7 @@ module Sass::Script::Functions
     ts = timestamp(kwargs['timestamp'])
 
     paths = paths.map { |path| sass_to_ruby(path) }.flatten
-    .map { |path| to_url(path, encode, ts) }
+    .map { |path| compress_img(path);to_url(path, encode, ts) }
 
     list(paths, :comma)
   end
@@ -256,7 +258,44 @@ module Sass::Script::Functions
 
 
   private
+  def compress_img(path)
+    #图片压缩
+    # debugger
+    require "net/https"
+    require "uri"
 
+    key = $configHash['tinypngKye'] || "_opLq9BVg-AHRQn0Fh0WNapWX83K6gmH"
+    input = path
+    # real_path = File.expand_path("#{File.dirname(path)}/#{path}")
+    # output = "tiny-output.png"
+
+    uri = URI.parse("https://api.tinypng.com/shrink")
+
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true
+
+# Uncomment below if you have trouble validating our SSL certificate.
+# Download cacert.pem from: http://curl.haxx.se/ca/cacert.pem
+# http.ca_file = File.join(File.dirname(__FILE__), "cacert.pem")
+
+    request = Net::HTTP::Post.new(uri.request_uri)
+    request.basic_auth("api", key)
+
+    response = http.request(request, File.binread(input))
+    # debugger
+    if response.code == "201"
+      # Compression was successful, retrieve output from Location header.
+      # debugger
+      output = path
+      path.gsub!(/\.(png|jpg)$/,'_tinypng.\1')
+      # output['.png'] = '_tinypng.png'
+      # output['.jpg'] = '_tinypng.jpg'
+      File.binwrite(output, http.get(response["location"]).body)
+    else
+      # Something went wrong! You can parse the JSON body for details.
+      puts "Compression failed"
+    end
+  end
   def timestamp(ts)
     # no kwargs
     if ts.nil?
@@ -283,7 +322,6 @@ module Sass::Script::Functions
   def to_url(path, encode, ts)
     output = "url(#{path})"
     # debugger
-    $configHash = load_json(File.expand_path("#{File.dirname(options[:filename])}/sassmagic.json")) || Hash.new
     if path.is_a?(String) && path =~ PATH_REGEX
 
       path, ext, query, anchor = $1 + $2, $2[1..-1].downcase.to_sym, $3, $4
@@ -291,6 +329,8 @@ module Sass::Script::Functions
       if MIME_TYPES.key? ext
         # 网络地址
         if path =~ /^(http:|https:)\/\//
+          # path = path.replace(/(http:\/\/)|(http:\/\/)/,'//')
+          path['http://'] = '//'
           output = output_path(path, ext, query, anchor, ts)
         else
           if $configHash["imageMaxSize"]
@@ -348,6 +388,7 @@ module Sass::Script::Functions
     if $configHash["imagesPath"].has_key?(File.expand_path("#{File.dirname(options[:filename])}/#{path}"))
       return $configHash["imagesPath"][File.expand_path("#{File.dirname(options[:filename])}/#{path}")]
     end
+
     # 调用上传任务
     # debugger
     nodetask = $configHash["imageLoader"] || false

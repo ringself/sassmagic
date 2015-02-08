@@ -12,11 +12,12 @@ ENV['SASS_ENV'] ||= 'development'
 # end
 
 $:.unshift"#{File.dirname(__FILE__)}"
-# require 'debugger'
+require 'debugger'
 # debugger
 # require 'sass'
 require 'sassmagic/utils'
 require 'sassmagic/remote'
 require 'sassmagic/reset'
+
 
 

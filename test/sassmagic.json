@@ -4,7 +4,9 @@
     "ignore": [
         "1px",
         "[data-dpr=",
-        "font-size"
+        "font-size",
+        "height",
+        ".test-a"
     ],
     "outputExtra": [
         "1x",
@@ -14,7 +16,8 @@
     "imageMaxSize": "5.120",
     "imageLoader": "imageuploader.js",
     "imagesPath": {
-        "/Users/fengnu/RubymineProjects/sassmagic/test/tmp/1px.png": "http://gw.alicdn.com/tfscom/TB1nUghHXXXXXXOaXXXaCx9JFXX-1-1.png"
+        "/Users/fengnu/RubymineProjects/sassmagic/test/tmp/1px.png": "//gw.alicdn.com/tfscom/TB1s8ZbHXXXXXXeaFXXaCx9JFXX-1-1.png"
     },
-    "remoteStylesheet": "https://raw.githubusercontent.com/jsw0528/base.sass/master/stylesheets/base.sass/"
+    "remoteStylesheet": "https://raw.githubusercontent.com/jsw0528/base.sass/master/stylesheets/base.sass/",
+    "tinypngKye":"_opLq9BVg-AHRQn0Fh0WNapWX83K6gmH"
 }

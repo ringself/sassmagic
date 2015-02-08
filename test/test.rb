@@ -6,7 +6,7 @@ require 'sass/exec'
 require 'sassmagic'
 require 'debugger'
 
-debugger
+# debugger
 class Test
   include Sass::Tree
   def absolutize(file)
