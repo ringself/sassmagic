@@ -24,7 +24,6 @@ body[data-dpr="2"] {
 //  background: url('tmp/demo.jpg') no-repeat;
   background: url('tmp/1px.png',$base64: true) no-repeat;
   background: url('tmp/1px.png', $timestamp: 'xxx') no-repeat;
-  background: url('tmp/1px.png?xxx') no-repeat;
   background: url('tmp/1px.png') no-repeat;
   background: url('http://tmp/1px.png') no-repeat;
   background: inline_image('tmp/1px.png') no-repeat;

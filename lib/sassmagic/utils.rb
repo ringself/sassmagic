@@ -261,10 +261,20 @@ module Sass::Script::Functions
   def compress_img(path)
     #图片压缩
     # debugger
+    # 未设置tinypngKye或者url图片，则不优化
+    if !$configHash.has_key?('tinypngKye') || path =~ /^(http:|https:)\/\//
+      return
+    end
+    output = path.gsub(/\.(png|jpg)$/,'_tinypng.\1')
+    if File.exist?(output)
+      path.gsub!(/\.(png|jpg)$/,'_tinypng.\1')
+      return
+    end
+
     require "net/https"
     require "uri"
 
-    key = $configHash['tinypngKye'] || "_opLq9BVg-AHRQn0Fh0WNapWX83K6gmH"
+    key = $configHash['tinypngKye'] || ''
     input = path
     # real_path = File.expand_path("#{File.dirname(path)}/#{path}")
     # output = "tiny-output.png"
