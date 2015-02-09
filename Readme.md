@@ -15,6 +15,7 @@ sudo gem install sassmagic
 
 same to sass
 
+eg: sassmagic --style nested --x test.scss test.css
 
 ### configuration
 
@@ -41,7 +42,8 @@ sassmagic.json 配置文件:
             "imageLoader": "imageuploader.js",
             "imagesPath": {
             },
-            "remote":[]
+            "remoteStylesheet":"",
+            "tinypngKye",""
         }
 
 imageuploader.js

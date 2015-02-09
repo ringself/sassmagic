@@ -5,7 +5,7 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name = 'sassmagic'
-  spec.version = '0.1.1'
+  spec.version = '0.1.2'
   spec.summary = 'Awesome Extensions For Sass'
   spec.description = 'Awesome features that you wanted'
   spec.homepage = 'https://github.com/ringself/sassmagic'
