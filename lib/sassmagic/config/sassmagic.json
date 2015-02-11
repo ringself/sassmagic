@@ -1,0 +1,16 @@
+{
+    "isNeedPxToRem": true,
+    "browserDefaultFontSize": "75px",
+    "devicePixelRatio":"2",
+    "ignore": [
+    ],
+    "outputExtra": [
+    ],
+    "imageMaxSize": "",
+    "imageLoader": "../config/imageuploader.js",
+    "imagesPath": {
+
+    },
+    "remoteStylesheet": "",
+    "tinypngKye": "_opLq9BVg-AHRQn0Fh0WNapWX83K6gmH"
+}

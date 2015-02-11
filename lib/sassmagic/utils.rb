@@ -242,7 +242,7 @@ module Sass::Script::Functions
   # url('a.png', $base64: true) => url(data:image/png;base64,iVBORw...)
   def url(*paths)
     # debugger
-    $configHash ||= load_json(File.expand_path("#{File.dirname(options[:filename])}/sassmagic.json")) || Hash.new
+    $configHash ||= load_json(File.expand_path("#{File.dirname(options[:filename])}/../config/sassmagic.json")) || Hash.new
     kwargs = paths.last.is_a?(Hash) ? paths.pop : {}
     raise Sass::SyntaxError, 'url() needs one path at least' if paths.empty?
 
@@ -262,49 +262,51 @@ module Sass::Script::Functions
     #图片压缩
     # debugger
     # 未设置tinypngKye或者url图片，则不优化
-    if !$configHash.has_key?('tinypngKye') || path =~ /^(http:|https:)\/\//
-      return
-    end
-    output = path.gsub(/\.(png|jpg)$/,'_tinypng.\1')
-    if File.exist?(output)
-      path.gsub!(/\.(png|jpg)$/,'_tinypng.\1')
-      return
-    end
+    if !$configHash.has_key?('tinypngKye') || $configHash['tinypngKye'] == '' || path =~ /^(http:|https:)\/\//
 
-    require "net/https"
-    require "uri"
-
-    key = $configHash['tinypngKye'] || ''
-    input = path
-    # real_path = File.expand_path("#{File.dirname(path)}/#{path}")
-    # output = "tiny-output.png"
-
-    uri = URI.parse("https://api.tinypng.com/shrink")
-
-    http = Net::HTTP.new(uri.host, uri.port)
-    http.use_ssl = true
-
-# Uncomment below if you have trouble validating our SSL certificate.
-# Download cacert.pem from: http://curl.haxx.se/ca/cacert.pem
-# http.ca_file = File.join(File.dirname(__FILE__), "cacert.pem")
-
-    request = Net::HTTP::Post.new(uri.request_uri)
-    request.basic_auth("api", key)
-
-    response = http.request(request, File.binread(input))
-    # debugger
-    if response.code == "201"
-      # Compression was successful, retrieve output from Location header.
-      # debugger
-      output = path
-      path.gsub!(/\.(png|jpg)$/,'_tinypng.\1')
-      # output['.png'] = '_tinypng.png'
-      # output['.jpg'] = '_tinypng.jpg'
-      File.binwrite(output, http.get(response["location"]).body)
     else
-      # Something went wrong! You can parse the JSON body for details.
-      puts "Compression failed"
+      output = path.gsub(/\.(png|jpg)$/,'_tinypng.\1')
+      if File.exist?("#{File.dirname(options[:filename])}/#{output}")
+        path.gsub!(/\.(png|jpg)$/,'_tinypng.\1')
+        return
+      end
+
+      require "net/https"
+      require "uri"
+
+      key = $configHash['tinypngKye'] || ''
+      input = path
+      # real_path = File.expand_path("#{File.dirname(path)}/#{path}")
+      # output = "tiny-output.png"
+
+      uri = URI.parse("https://api.tinypng.com/shrink")
+
+      http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = true
+
+      # Uncomment below if you have trouble validating our SSL certificate.
+      # Download cacert.pem from: http://curl.haxx.se/ca/cacert.pem
+      # http.ca_file = File.join(File.dirname(__FILE__), "cacert.pem")
+
+      request = Net::HTTP::Post.new(uri.request_uri)
+      request.basic_auth("api", key)
+
+      response = http.request(request, File.binread("#{File.dirname(options[:filename])}/#{input}"))
+      # debugger
+      if response.code == "201"
+        # Compression was successful, retrieve output from Location header.
+        # debugger
+        output = path
+        path.gsub!(/\.(png|jpg)$/,'_tinypng.\1')
+        # output['.png'] = '_tinypng.png'
+        # output['.jpg'] = '_tinypng.jpg'
+        File.binwrite("#{File.dirname(options[:filename])}/#{output}", http.get(response["location"]).body)
+      else
+        # Something went wrong! You can parse the JSON body for details.
+        puts "Compression failed"
+      end
     end
+
   end
   def timestamp(ts)
     # no kwargs
@@ -401,14 +403,17 @@ module Sass::Script::Functions
 
     # 调用上传任务
     # debugger
+    if (!$configHash.has_key?'imageLoader') || ($configHash["imageLoader"] == '')
+      return path
+    end
     nodetask = $configHash["imageLoader"] || false
     taskargs = File.expand_path("#{File.dirname(options[:filename])}/#{path}")
     # debugger
     if nodetask && File::exists?( File.expand_path("#{File.dirname(options[:filename])}/#{nodetask}") )
-      task = system('node '+File.expand_path("#{File.dirname(options[:filename])}/#{nodetask}")+' '+File.expand_path("#{File.dirname(options[:filename])}/sassmagic.json")+' '+taskargs)
+      task = system('node '+File.expand_path("#{File.dirname(options[:filename])}/#{nodetask}")+' '+File.expand_path("#{File.dirname(options[:filename])}/../config/sassmagic.json")+' '+taskargs)
       if task
         # puts 'nodetask success'
-        $configHash = load_json(File.expand_path("#{File.dirname(options[:filename])}/sassmagic.json"))
+        $configHash = load_json(File.expand_path("#{File.dirname(options[:filename])}/../config/sassmagic.json"))
         $configHash["imagesPath"] ||= Hash.new
         if $configHash["imagesPath"].has_key?(path)
           return $configHash["imagesPath"][path]

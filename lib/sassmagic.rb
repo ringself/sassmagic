@@ -18,6 +18,7 @@ require 'debugger'
 require 'sassmagic/utils'
 require 'sassmagic/remote'
 require 'sassmagic/reset'
+require 'sassmagic/installer'
 
 
 

@@ -141,13 +141,14 @@ module Sass
     # print 'star compile file:'
     #加载json
     # 获取设置
-    $configHash = ctx.load_json(File.expand_path("#{File.dirname(filename)}/sassmagic.json")) || {}
+    $configHash = ctx.load_json(File.expand_path("#{File.dirname(filename)}/../config/sassmagic.json")) || {}
     # puts $configHash
     options = args.last.is_a?(Hash) ? args.pop : {}
     options = options.merge $configHash
     css_filename = args.shift
     #是否写入loadpath
-    if options.has_key?"remoteStylesheet"
+    # debugger
+    if (options.has_key?"remoteStylesheet") && (options["remoteStylesheet"] != '')
       RemoteSass.location = options["remoteStylesheet"]
     end
     #
@@ -438,6 +439,7 @@ class Sass::Tree::Visitors::ToCss < Sass::Tree::Visitors::Base
   end
   #属性重写开始
   def visit_prop(node)
+    # debugger
     opt = node.options
     if $configHash == nil || $configHash == {}
       #读取配置文件
@@ -445,7 +447,7 @@ class Sass::Tree::Visitors::ToCss < Sass::Tree::Visitors::Base
       #加载json
       # 获取设置
       filename = opt[:filename] || ''
-      $configHash = ctx.load_json(File.expand_path("#{File.dirname(filename)}/sassmagic.json")) || {}
+      $configHash = ctx.load_json(File.expand_path("#{File.dirname(filename)}/../config/sassmagic.json")) || {}
       opt = opt.merge $configHash
     else
       opt = opt.merge $configHash
@@ -516,7 +518,7 @@ class Sass::Tree::Visitors::ToCss < Sass::Tree::Visitors::Base
       #'0 1px.jpg 1px 2px;3pxabc 4px'.scan(/([\.\d]+)+(px)+([;\s]+|$)/)
       #=> [["1", "px", " "], ["2", "px", ";"], ["4", "px", ""]]
       str.scan(/([\.\d]+)+(px)+([;\s]+|$)/i){ |c,v|
-        if !(ignore.include? c+v) && (c != '1')
+        if !(ignore.include? c+v) && (c != '1') && c =~ /^[^0]+/
           ret = ret.gsub(c.to_s,(format("%.3f",c.to_f/rem).to_f).to_s).gsub(v,'rem')
         end
       }
@@ -549,7 +551,7 @@ class Sass::Tree::Visitors::ToCss < Sass::Tree::Visitors::Base
       #加载json
       # 获取设置
       filename = opt[:filename] || ''
-      $configHash = ctx.load_json(File.expand_path("#{File.dirname(filename)}/sassmagic.json")) || {}
+      $configHash = ctx.load_json(File.expand_path("#{File.dirname(filename)}/../config/sassmagic.json")) || {}
       opt = opt.merge $configHash
     else
       opt = opt.merge $configHash
@@ -980,6 +982,11 @@ END
       end
 
       opts.on("-v", "--version", "Print the Sass version.") do
+        puts("Sass #{Sass.version[:string]}")
+        exit
+      end
+
+      opts.on("creat", "--version", "Print the Sass version.") do
         puts("Sass #{Sass.version[:string]}")
         exit
       end

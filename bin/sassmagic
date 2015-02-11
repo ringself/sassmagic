@@ -11,6 +11,7 @@ require 'sass/exec'
 require 'sassmagic/remote'
 require 'sassmagic/utils'
 require 'sassmagic/reset'
+require 'sassmagic/installer'
 # require 'debugger'
 
 
@@ -29,6 +30,7 @@ class Engine
   end
 end
 
+isneedcompile = true
 multiple = false
 # debugger
 # ARGV.each{|v|
@@ -37,18 +39,29 @@ multiple = false
 #   end
 # }
 
+if ARGV.include?'init'
+  Sassmagic::Installers::Base.new
+  isneedcompile = false
+end
+
+if ARGV.include?'creat'
+  Sassmagic::Installers::Base.new(ARGV[-1])
+  isneedcompile = false
+end
+
 if ARGV.include?'--x'
   multiple = true
 end
 
 
 # Engine.new.go
-if multiple
-  Engine.new.go
-else
-  opts = Sass::Exec::SassScss.new(ARGV, :sass)
-  opts.parse!
+if isneedcompile
+  if multiple
+    Engine.new.go
+  else
+    opts = Sass::Exec::SassScss.new(ARGV, :sass)
+    opts.parse!
+  end
 end
-
 
 
