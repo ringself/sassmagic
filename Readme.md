@@ -18,7 +18,7 @@ start:
 
 or  
 
-####sassmagic creat
+####sassmagic creat [project]
 
 other
 
