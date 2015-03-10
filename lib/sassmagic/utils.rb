@@ -250,7 +250,7 @@ module Sass::Script::Functions
     ts = timestamp(kwargs['timestamp'])
 
     paths = paths.map { |path| sass_to_ruby(path) }.flatten
-    .map { |path| compress_img(path);to_url(path, encode, ts) }
+    .map { |path| compress_img(path, encode, ts); }
 
     list(paths, :comma)
   end
@@ -258,55 +258,65 @@ module Sass::Script::Functions
 
 
   private
-  def compress_img(path)
-    #图片压缩
+  def compress_img(path,encode,ts)
     # debugger
-    # 未设置tinypngKye或者url图片，则不优化
-    if !$configHash.has_key?('tinypngKye') || $configHash['tinypngKye'] == '' || path =~ /^(http:|https:)\/\//
+    if path.is_a?(String) && path =~ PATH_REGEX
 
-    else
-      output = path.gsub(/\.(png|jpg)$/,'_tinypng.\1')
-      if File.exist?("#{File.dirname(options[:filename])}/#{output}")
-        path.gsub!(/\.(png|jpg)$/,'_tinypng.\1')
-        return
-      end
+      path, ext, query, anchor = $1 + $2, $2[1..-1].downcase.to_sym, $3, $4
 
-      require "net/https"
-      require "uri"
-
-      key = $configHash['tinypngKye'] || ''
-      input = path
-      # real_path = File.expand_path("#{File.dirname(path)}/#{path}")
-      # output = "tiny-output.png"
-
-      uri = URI.parse("https://api.tinypng.com/shrink")
-
-      http = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl = true
-
-      # Uncomment below if you have trouble validating our SSL certificate.
-      # Download cacert.pem from: http://curl.haxx.se/ca/cacert.pem
-      # http.ca_file = File.join(File.dirname(__FILE__), "cacert.pem")
-
-      request = Net::HTTP::Post.new(uri.request_uri)
-      request.basic_auth("api", key)
-
-      response = http.request(request, File.binread("#{File.dirname(options[:filename])}/#{input}"))
-      # debugger
-      if response.code == "201"
-        # Compression was successful, retrieve output from Location header.
+      if MIME_TYPES.key? ext
+        #图片压缩
         # debugger
-        output = path
-        path.gsub!(/\.(png|jpg)$/,'_tinypng.\1')
-        # output['.png'] = '_tinypng.png'
-        # output['.jpg'] = '_tinypng.jpg'
-        File.binwrite("#{File.dirname(options[:filename])}/#{output}", http.get(response["location"]).body)
-      else
-        # Something went wrong! You can parse the JSON body for details.
-        puts "Compression failed"
+        # 未设置tinypngKye或者url图片，则不优化
+        if !$configHash.has_key?('tinypngKye') || $configHash['tinypngKye'] == '' || path =~ /^(http:|https:)\/\//
+
+        else
+          output = path.dup.gsub(/\.(png|jpg)$/,'_tinypng.\1')
+          if File.exist?("#{File.dirname(options[:filename])}/#{output}")
+            # debug exception while processing events: can't modify frozen String , Backtrace:
+            path.gsub!(/\.(png|jpg)$/,'_tinypng.\1')
+          else
+            require "net/https"
+            require "uri"
+
+            key = $configHash['tinypngKye'] || ''
+            input = path
+            # real_path = File.expand_path("#{File.dirname(path)}/#{path}")
+            # output = "tiny-output.png"
+
+            uri = URI.parse("https://api.tinypng.com/shrink")
+
+            http = Net::HTTP.new(uri.host, uri.port)
+            http.use_ssl = true
+
+            # Uncomment below if you have trouble validating our SSL certificate.
+            # Download cacert.pem from: http://curl.haxx.se/ca/cacert.pem
+            # http.ca_file = File.join(File.dirname(__FILE__), "cacert.pem")
+
+            request = Net::HTTP::Post.new(uri.request_uri)
+            request.basic_auth("api", key)
+
+            response = http.request(request, File.binread("#{File.dirname(options[:filename])}/#{input}"))
+            # debugger
+            if response.code == "201"
+              # Compression was successful, retrieve output from Location header.
+              # debugger
+              output = path
+              path.gsub!(/\.(png|jpg)$/,'_tinypng.\1')
+              # output['.png'] = '_tinypng.png'
+              # output['.jpg'] = '_tinypng.jpg'
+              File.binwrite("#{File.dirname(options[:filename])}/#{output}", http.get(response["location"]).body)
+            else
+              # Something went wrong! You can parse the JSON body for details.
+              puts "Compression failed"
+            end
+          end
+        end
       end
     end
 
+    #调用to_url函数
+    to_url(path, encode, ts)
   end
   def timestamp(ts)
     # no kwargs
@@ -415,22 +425,22 @@ module Sass::Script::Functions
         # puts 'nodetask success'
         $configHash = load_json(File.expand_path("#{File.dirname(options[:filename])}/../config/sassmagic.json"))
         $configHash["imagesPath"] ||= Hash.new
-        if $configHash["imagesPath"].has_key?(path)
-          return $configHash["imagesPath"][path]
+        if $configHash["imagesPath"].has_key?(taskargs)
+          return $configHash["imagesPath"][taskargs]
         else
           return path
         end
       else
         # puts 'nodetask faile'
-        if $configHash["imagesPath"].has_key?(path)
-          return $configHash["imagesPath"][path]
+        if $configHash["imagesPath"].has_key?(taskargs)
+          return $configHash["imagesPath"][taskargs]
         else
           return path
         end
       end
     else
-      if $configHash["imagesPath"].has_key?(path)
-        return $configHash["imagesPath"][path]
+      if $configHash["imagesPath"].has_key?(taskargs)
+        return $configHash["imagesPath"][taskargs]
       else
         return path
       end

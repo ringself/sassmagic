@@ -259,7 +259,8 @@ class Sass::Tree::Visitors::ToCss < Sass::Tree::Visitors::Base
 
   # Avoid allocating lots of new strings for `#output`. This is important
   # because `#output` is called all the time.
-  NEWLINE = "\n"
+  # 注释常量重复声明
+  # NEWLINE = "\n"
 
   # Add `s` to the output string and update the line and offset information
   # accordingly.
@@ -520,6 +521,10 @@ class Sass::Tree::Visitors::ToCss < Sass::Tree::Visitors::Base
       str.scan(/([\.\d]+)+(px)+([;\s]+|$)/i){ |c,v|
         if !(ignore.include? c+v) && (c != '1') && c =~ /^[^0]+/
           ret = ret.gsub(c.to_s,(format("%.3f",c.to_f/rem).to_f).to_s).gsub(v,'rem')
+        else
+          # debugger
+          ret = ret.gsub(/^0+/,'0').gsub(/(^0+)(\d+)/,'\2')
+          # ret = ret.to_s.gsub(/(^0+)(\d+)/,'\2')
         end
       }
     end
@@ -813,7 +818,8 @@ module Sass::Exec
       @options[:input], @options[:output] = input, output
     end
 
-    COLORS = {:red => 31, :green => 32, :yellow => 33}
+    # 注释常量重复声明
+    # COLORS = {:red => 31, :green => 32, :yellow => 33}
 
     # Prints a status message about performing the given action,
     # colored using the given color (via terminal escapes) if possible.

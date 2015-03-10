@@ -1,0 +1,14 @@
+{
+    "isNeedPxToRem": true,
+    "browserDefaultFontSize": "75px",
+    "devicePixelRatio": "2",
+    "ignore": [],
+    "outputExtra": [],
+    "imageMaxSize": "",
+    "imageLoader": "../config/imageuploader.js",
+    "imagesPath": {
+        "/Users/fengnu/RubymineProjects/sassmagic/test/ts/image/1px_tinypng.png": "//gw.alicdn.com/tfscom/TB1CSOkHpXXXXbBXFXXaCx9JFXX-1-1.png"
+    },
+    "remoteStylesheet": "https://raw.githubusercontent.com/jsw0528/base.sass/master/stylesheets/base.sass/",
+    "tinypngKye": "_opLq9BVg-AHRQn0Fh0WNapWX83K6gmH"
+}

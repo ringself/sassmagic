@@ -13,7 +13,7 @@ class Test
     File.expand_path("#{File.dirname(__FILE__)}/#{file}")
   end
   def go
-    Sass.compile_file(absolutize("test.scss"), absolutize("test_scss.css"), :style => :nested)
+    Sass.compile_file(absolutize("ts/sass/test.scss"), absolutize("ts/stylesheet/test_scss.css"), :style => :nested)
     # Sass.compile("$who: world;
     # div { hello: $who }
     # p{width:100px}
@@ -25,3 +25,6 @@ end
 # RemoteSass.location = "http://gitlab.alibaba-inc.com/mtb/app-xinrenquanyi/raw/master/src/css/sass/"
 
 Test.new.go
+# debugger
+# Sassmagic::Installers::Base.new('xs')
+# Sassmagic::Installers::Base.new

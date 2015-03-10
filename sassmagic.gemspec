@@ -5,16 +5,15 @@ $LOAD_PATH.unshift(lib) unless $LOAD_PATH.include?(lib)
 
 Gem::Specification.new do |spec|
   spec.name = 'sassmagic'
-  spec.version = '0.1.3'
+  spec.version = '0.1.4'
   spec.summary = 'Awesome Extensions For Sass'
   spec.description = 'Awesome features that you wanted'
   spec.homepage = 'https://github.com/ringself/sassmagic'
-  spec.author = 'ringself'
-  spec.email = 'ringself@163.com'
+  spec.author = 'ring'
+  spec.email = 'ring.wangh@alibaba-inc.com'
   spec.license = 'MIT'
   spec.files = Dir[
       'bin/*',
-      # 'lib/**/*.rb',
       'lib/**/*',
     'stylesheets/**/*.scss',
     '*.md'
