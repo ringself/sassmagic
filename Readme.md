@@ -14,17 +14,22 @@ sudo gem install sassmagic
 
 start:
 
-####sassmagic init
+#### sassmagic init
 
 or  
 
-####sassmagic creat [project]
+#### sassmagic creat [project]
 
-other
+other cml
 
 same to sass
 
 eg: sassmagic --style nested --x test.scss test.css
+
+eg: sassmagic --watch  sass/main.scss:stylesheet/main.css
+
+
+
 
 ### configuration
 
