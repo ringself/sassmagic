@@ -18,7 +18,7 @@ start:
 
 or  
 
-#### sassmagic creat [project]
+#### sassmagic create [project]
 
 other cml
 

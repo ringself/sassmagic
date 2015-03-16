@@ -44,7 +44,7 @@ if ARGV.include?'init'
   isneedcompile = false
 end
 
-if ARGV.include?'creat'
+if ARGV.include?'create'
   Sassmagic::Installers::Base.new(ARGV[-1])
   isneedcompile = false
 end
