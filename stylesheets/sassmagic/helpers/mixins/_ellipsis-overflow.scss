@@ -1,0 +1,9 @@
+//eg:https://gist.github.com/airen/caf49ca5c5e7743f9996
+
+@mixin ellipsis-overflow($substract:0) {
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	width: 100% - $substract;
+}
+

@@ -1,8 +1,0 @@
-@mixin inline-block {
-  display: inline-block;
-
-  @if support-browser(ie 7) {
-    *display: inline;
-    *zoom: 1;
-  }
-}
