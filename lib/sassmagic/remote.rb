@@ -27,7 +27,6 @@ module Sass
       def find_relative uri, base, options
         _find @root + base + uri, options
       end
-
       def find uri, options
         _find @root + uri, options
       end
@@ -100,7 +99,7 @@ module Sass
 
         # fetch the content
         Net::HTTP.start(uri.host, uri.port, :use_ssl => uri.scheme == 'https') do |http|
-          # debugger
+           # debugger
           response = http.get uri.request_uri
           response.value
 

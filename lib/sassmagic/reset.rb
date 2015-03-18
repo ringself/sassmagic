@@ -176,6 +176,7 @@ module Sass
     end
 
     options.delete("multiple")
+    # debugger
     result = Sass::Engine.for_file(filename, options).render
     if css_filename
       options[:css_filename] ||= css_filename
