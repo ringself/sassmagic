@@ -10,11 +10,14 @@ ENV['SASS_ENV'] ||= 'development'
 #   Compass::Frameworks.register('sassmagic', stylesheets_directory: load_path)
 # rescue LoadError
 # end
-
-$:.unshift"#{File.dirname(__FILE__)}"
-require 'debugger'
+# require 'debugger'
 # debugger
+# $:.unshift"#{File.dirname(__FILE__)}"
+$:.unshift(load_path + '/')
+
+
 # require 'sass'
+
 require 'sassmagic/utils'
 require 'sassmagic/remote'
 require 'sassmagic/reset'
