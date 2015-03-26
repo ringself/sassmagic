@@ -1,7 +1,0 @@
-@mixin ellipsis-overflow {
-  @include placeholder-wrapper('ellipsis-overflow') {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
-}
