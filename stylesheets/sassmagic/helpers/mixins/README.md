@@ -10,17 +10,18 @@ Sass中的mixins默认情况下可以不调用任何参数，此时调用的参�
 
 #### 参数
 
-定义`$substract`参数,默认值为`0`。指定元素需要去掉的宽度。
+- `$line`，行数，默认值为`1`。
+- `$substract`，指定元素需要去掉的宽度，默认值为`0`。
 
 #### 调用
 
-调用默认参数值，也就是`$substract`值为0;
+调用默认参数值，也就是`$line`值为1，`$substract`值为0;
 
 		@include ellipsis-overflow;
 
 指定能数值调用：
 
-		@include ellipsis-overflow(20);
+		@include ellipsis-overflow(2); // 显示两行文字之后加省略号
 
 #### 示例
 
