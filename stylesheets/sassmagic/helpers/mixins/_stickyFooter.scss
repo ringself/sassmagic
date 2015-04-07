@@ -1,7 +1,6 @@
 //From: http://compass-style.org/reference/compass/layout/sticky_footer/
 
-//html
-
+// html
 // <body>
 //   <div id="wrapper">
 //     <div id="wrapper-inner"></div>
@@ -12,8 +11,12 @@
 //   </div>
 // </body>
 
-
-//eg: https://gist.github.com/airen/2f7211d7819dddaf6003
+/// 设置底部元素sticky
+/// @param  {[string]} $footer-height      - 底部元素高度
+/// @param  {[string]} $root-selector [unquote("#wrapper")] 页面root主元素选择器
+/// @param  {[string]} $root-footer-selector [unquote("#push")] 页面root底部元素选择器
+/// @param  {[string]} $footer-selector [unquote("#footer")] 底部元素选择器
+/// @link https://gist.github.com/airen/2f7211d7819dddaf6003
 
 @mixin stickyFooter($footer-height, $root-selector: unquote("#wrapper"), $root-footer-selector: unquote("#push"), $footer-selector: unquote("#footer")) {
   html, body {

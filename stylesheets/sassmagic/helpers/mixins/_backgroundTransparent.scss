@@ -1,12 +1,13 @@
 //Author：Janking　（https://github.com/Janking）
-
-//eg: https://gist.github.com/airen/040f6f06bcc8b3176d8a
-
+/// 设置背景透明
+/// @param  {[string]} $color         -       背景颜色
+/// @param  {[string]} $opacity       -       透明度
+/// @param  {[boolen]} $support-for-ie [false] 是否支持IE
+/// @link https://gist.github.com/airen/040f6f06bcc8b3176d8a
 @mixin backgroundTransparent($color,$opacity,$support-for-ie:false){
 	background-color:rgba($color,$opacity);
 	@if $support-for-ie{
 		filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=#{ie-hex-str(rgba($color,$opacity))},endColorstr=#{ie-hex-str(rgba($color,$opacity))});
-		
 		:root & {
 			filter:none;
 		}

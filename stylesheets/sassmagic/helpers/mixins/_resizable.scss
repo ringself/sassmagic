@@ -1,4 +1,6 @@
+/// 设置元素是否可以resize
+/// @param  {[string]} $direction      - 方向 horizontal, vertical, both
 @mixin resizable($direction) {
-  resize: $direction; // Options: horizontal, vertical, both
-  overflow: auto; // Per CSS3 UI, `resize` only applies when `overflow` isn't `visible`
+    resize: $direction; // Options: horizontal, vertical, both
+    overflow: auto; // Per CSS3 UI, `resize` only applies when `overflow` isn't `visible`
 }
