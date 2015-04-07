@@ -1,24 +1,22 @@
 //pull-left
 %pull-left {
-	@include float(left);
+    @include float(left);
 }
 
 //pull-right
-
 %pull-right {
-	@include float(right);
+    @include float(right);
 }
 
 //clearfix
-
 %clearfix {
-	&:before,
-	&:after {
-		content:"";
-		display: table;
-	}
-	&:after {
-		overflow: hidden;
-		clear: both;
-	}
+    &:before,
+    &:after {
+        content:"";
+        display: table;
+    }
+    &:after {
+        overflow: hidden;
+        clear: both;
+    }
 }
