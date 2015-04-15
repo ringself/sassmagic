@@ -1,9 +1,10 @@
-//https://gist.github.com/airen/d7f8ad25c982750dcb86
-
-@mixin float($direction: left,$support-for-ie:true){
-
-	float: unquote($direction);
-	@if $support-for-ie{
-		_display: inline;
-	}
+/// 设置元素的float属性
+/// @param  {[string]} $direction      [left] float方向
+/// @param  {[boolen]} $support-for-ie [true] 是否支持IE
+/// @link https://gist.github.com/airen/d7f8ad25c982750dcb86
+@mixin float($direction: left, $support-for-ie:true) {
+    float: unquote($direction);
+    @if $support-for-ie {
+        _display: inline;
+    }
 }

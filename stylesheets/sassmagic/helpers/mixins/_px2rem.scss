@@ -1,6 +1,11 @@
 //Thanks: https://github.com/bitmanic/rem/blob/master/stylesheets/_rem.scss by @benfrain (https://github.com/benfrain)
 
-//eg: https://gist.github.com/airen/cdf85f2a704fbca00dec
+/// px转rem,需要sass>=3.4,libsass推荐用pxToremCalc
+/// @param  {[string]} $property    - 属性值
+/// @param  {[string]} $px-values -   像素值 如10px
+/// @param  {[string]} $px-values [16px] 基础字号像素值 
+/// @param  {[boolen]} $support-for-ie [true] 是否支持IE
+/// @link https://gist.github.com/airen/cdf85f2a704fbca00dec
 
 @mixin px2rem($property,$px-values,$baseline-px:16px,$support-for-ie:false){
 	//Conver the baseline into rems
@@ -25,4 +30,41 @@
 		// Return the property and its list of converted values
 		#{$property}: $rem-values;
 	}
+}
+
+
+
+
+/// 去掉单位，比如100px => 100
+/// @param  {[string]} $number      - 带单位或者不带单位的数值
+@function strip-units($number) {
+    @return $number / ($number * 0 + 1);
+}
+
+/// px转rem 默认字号16px，可以全局设置$browser-default-font-size，eg: @include pxToremCalc(padding,10,20,10);
+/// @param  {[string]} $property      - 属性值
+/// @param  {[string]} $values... -   像素值 如10px,支持传入多值
+@mixin remCalc($property, $values...) {
+  $browser-default-font-size:16px !default;
+  $max: length($values);//返回$values列表的长度值
+  $pxValues: '';
+  $remValues: '';
+  @for $i from 1 through $max {
+    $value: strip-units(nth($values, $i));//返回$values列表中的第$i个值，并将单位值去掉
+    $browser-default-font-size: strip-units($browser-default-font-size);
+    $remValues: #{$remValues + $value / $browser-default-font-size}rem;
+    @if $i < $max {
+      $remValues: #{$remValues + " "};
+    }
+  }
+  @for $i from 1 through $max {
+    $value: strip-units(nth($values, $i));
+    $pxValues: #{$pxValues + $value}px;
+    @if $i < $max {
+      $pxValues: #{$pxValues + " "};
+    }
+  }
+
+//   #{$property}: $pxValues; //不支持rem的输出px
+  #{$property}: $remValues;
 }

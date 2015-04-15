@@ -1,25 +1,25 @@
 //@include visuallyHidden;
-
+/// 设置元素隐藏，最常用来隐藏一个元素的方法是使用display:none，可这并不是一个完美的方法，这样会让屏幕阅读器无法读到这个元素。为了解决这个问题，使用另外一种方法来实现元素的隐藏，而这种方法仅在浏览器中隐藏了元素，而屏幕阅读器却能读到这个元素。
+/// @param  {[boolen]} $support-for-ie [true] 是否支持IE
+/// @link http://www.w3cplus.com/preprocessor/ten-best-common-mixins.html
 @mixin visuallyHidden($support-for-ie:true) {
-	@if $support-for-ie {
-		clip: rect(0,0,0,0);
-	}
-	border: 0;
-	clip: rect(0 0 0 0);
-	height: 1px;
-	margin: -1px;
-	overflow: hidden;
-	padding: 0;
-	position: absolute;
-	width: 1px;
-	
-	&.focusable:active,
-	&.focusable:focus {
-		clip: auto;
-		height: auto;
-		margin: 0;
-		overflow: visible;
-		position: static;
-		width: auto;
-	}
+    @if $support-for-ie {
+        clip: rect(0, 0, 0, 0);
+    }
+    border: 0;
+    clip: rect(0 0 0 0);
+    height: 1px;
+    margin: -1px;
+    overflow: hidden;
+    padding: 0;
+    position: absolute;
+    width: 1px;
+    &.focusable:active, &.focusable:focus {
+        clip: auto;
+        height: auto;
+        margin: 0;
+        overflow: visible;
+        position: static;
+        width: auto;
+    }
 }

@@ -1,14 +1,9 @@
-//eg:https://gist.github.com/airen/caf49ca5c5e7743f9996
-
-@mixin ellipsis-overflow($line: 1, $substract: 0) {
-    @if $line == 1 {
-        white-space: nowrap;
-        text-overflow: ellipsis;
-    } @else {
-        display: -webkit-box;
-        -webkit-line-clamp: $line;
-        -webkit-box-orient: vertical;
-    }
-    width: 100% - $substract;
+/// 文字溢出省略号
+/// @param  {[string]} $substract         [0]     预留区域百分比%
+/// @link https://gist.github.com/airen/caf49ca5c5e7743f9996
+@mixin ellipsis-overflow($substract:0) {
     overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    width: 100% - $substract;
 }

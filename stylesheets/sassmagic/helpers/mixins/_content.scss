@@ -1,15 +1,18 @@
-//eg: https://gist.github.com/08bce58e9af2fa223118
-@mixin content($attr,$content:null){
-  @if $attr {
-    display: inline-block;
-    content: $attr;
-  }
-  @else if $content != null {
-    content: quote($content);
-    display: inline-block;
-  }
-  @else {
-    content: "";
-    display: table;
-  }
+/// 设置元素的content内容
+/// @param  {[string]} $attr         -       元素属性
+/// @param  {[string]} $content      [null]   内容值
+/// @link https://gist.github.com/08bce58e9af2fa223118
+@mixin content($attr, $content:null) {
+    @if $attr {
+        display: inline-block;
+        content: $attr;
+    }
+    @else if $content ! null {
+        content: quote($content);
+        display: inline-block;
+    }
+    @else {
+        content: "";
+        display: table;
+    }
 }
