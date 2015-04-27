@@ -16,7 +16,7 @@ ENV['SASS_ENV'] ||= 'development'
 $:.unshift(load_path + '/')
 
 
-# require 'sass'
+require 'sass'
 
 require 'sassmagic/utils'
 require 'sassmagic/remote'
