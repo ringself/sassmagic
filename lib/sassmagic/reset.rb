@@ -519,9 +519,19 @@ class Sass::Tree::Visitors::ToCss < Sass::Tree::Visitors::Base
       #字符串替换px
       #'0 1px.jpg 1px 2px;3pxabc 4px'.scan(/([\.\d]+)+(px)+([;\s]+|$)/)
       #=> [["1", "px", " "], ["2", "px", ";"], ["4", "px", ""]]
-      str.scan(/([\.\d]+)+(px)+([;\s]+|$)/i){ |c,v|
-        if !(ignore.include? c+v) && (c != '1') && c =~ /^[^0]+/
-          ret = ret.gsub(c.to_s,(format("%.3f",c.to_f/rem).to_f).to_s).gsub(v,'rem')
+      # str.scan(/([\.\d]+)+(px)+([;\s]+|$)/i){ |c,v|
+      #   if !(ignore.include? c+v) && (c != '1') && c =~ /^[^0]+/
+      #     ret = ret.gsub(c.to_s,(format("%.3f",c.to_f/rem).to_f).to_s).gsub(v,'rem')
+      #   else
+      #     # debugger
+      #     ret = ret.gsub(/^0+/,'0').gsub(/(^0+)(\d+)/,'\2')
+      #     # ret = ret.to_s.gsub(/(^0+)(\d+)/,'\2')
+      #   end
+      # }
+      #修复bug '1px 1em' =>'.xrem .xem'
+      str.scan(/(([\.\d]+)+(px))+([;\s]+|$)/i){ |s,c,v|
+        if !(ignore.include? s) && (c != '1') && c =~ /^[^0]+/
+          ret = ret.gsub(s.to_s,(format("%.3f",c.to_f/rem).to_f).to_s + 'rem')
         else
           # debugger
           ret = ret.gsub(/^0+/,'0').gsub(/(^0+)(\d+)/,'\2')
